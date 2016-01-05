@@ -16,7 +16,7 @@ clean:
 install:
 	test -e ${DESTDIR}/usr/share/equib06 || mkdir -p ${DESTDIR}/usr/share/equib06
 	test -e ${DESTDIR}/usr/bin || mkdir -p ${DESTDIR}/usr/bin
-	install -m 644 data/*.* ${DESTDIR}/usr/share/equib06
+	install -m 644 atomic_data06/*.* ${DESTDIR}/usr/share/equib06
 	install equib06 ${DESTDIR}/usr/bin
 
 uninstall:
