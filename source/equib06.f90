@@ -1,36 +1,36 @@
 ! For input atomic data file formats see Readme file attached at the end
 ! **********************************************************************
-!          Program EQUIB  (FORTRAN 77)                                  
-!                                                                       
-!    Programming history:                                               
-!                                                                       
-!    1981 May 3    IDH    Version 1                                     
-!    1981 May 5    IDH    Minibug fixed!                                
-!    1981 May 7    IDH    Now takes collision rates or strengths        
-!    1981 Aug 3    SA     Interpolates collision strengths              
-!    1981 Aug 7    SA     Input method changed                          
-!    1984 Nov 19   RESC   SA files entombed in scratch disk. Logical    
-!                         filenames given to SA's data files.           
+!          Program EQUIB  (FORTRAN 77)
+!
+!    Programming history:
+!
+!    1981 May 3    IDH    Version 1
+!    1981 May 5    IDH    Minibug fixed!
+!    1981 May 7    IDH    Now takes collision rates or strengths
+!    1981 Aug 3    SA     Interpolates collision strengths
+!    1981 Aug 7    SA     Input method changed
+!    1984 Nov 19   RESC   SA files entombed in scratch disk. Logical
+!                         filenames given to SA's data files.
 !    1995 Aug      DPR    Changed input file format. Increased matrices.
 !    1996 Feb      XWL    Tidy up. SUBROUTINES SPLMAT, HGEN, CFY and CFD
-!                         modified such that matrix sizes (i.e. maximum 
+!                         modified such that matrix sizes (i.e. maximum
 !                         of Te and maximum no of levels) can now be cha
 !                         by modifying the parameters NDIM1, NDIM2 and N
-!                         in the Main program. EASY!                    
-!                         Now takes collision rates as well.            
-!                         All variables are declared explicitly         
+!                         in the Main program. EASY!
+!                         Now takes collision rates as well.
+!                         All variables are declared explicitly
 !                         Generate two extra files (ionpop.lis and ionra
-!                         of plain stream format for plotting           
-!    1996 June     CJP    Changed input data format for cases IBIG=1,2. 
-!                         Fixed readin bug for IBIG=2 case.             
-!                         Now reads reformatted upsilons (easier to see 
+!                         of plain stream format for plotting
+!    1996 June     CJP    Changed input data format for cases IBIG=1,2.
+!                         Fixed readin bug for IBIG=2 case.
+!                         Now reads reformatted upsilons (easier to see
 !                         and the 0 0 0 data end is excluded for these c
 !                         The A values have a different format for IBIG=
 !    2006           BE    Converted to F90
 !    2015           RW    Misc updates and improvements
 !
-! ***** N.B!!  NO TRAPS FOR BAD DATA!!  TAKE CARE!! ****C               
-!                                                                       
+! ***** N.B!!  NO TRAPS FOR BAD DATA!!  TAKE CARE!! ****C
+!
       IMPLICIT NONE
       INTEGER NDIM1, NDIM2, NDIM1T3, MAXND
       PARAMETER (NDIM1=35, NDIM2=150)                 !Maximum no of Te & levels
@@ -45,17 +45,17 @@
      & QOM(NDIM1,NDIM2,NDIM2), A(NDIM2,NDIM2), E(NDIM2), T(NDIM1),      &
      & ROOTT(NDIM1), X(NDIM2,NDIM2), Y(NDIM2),                          &
      & X2(NDIM2,NDIM2), XKEEP(NDIM2,NDIM2), Y2(NDIM2), YKEEP(NDIM2),    &
-     & HMH(NDIM1,NDIM1), D(NDIM1)                                       
+     & HMH(NDIM1,NDIM1), D(NDIM1)
       CHARACTER*20 LABEL(NDIM2), ION
       CHARACTER*1 LTEXT(78)
       INTEGER I, I1, I2, J, K, L, II, JJ, KK, LL, JT, JJD,              &
      & NLINES, NLEV, NTEMP, IBIG, IRATS, NTRA, NSETS, ITEMP,            &
      & IN, NLEV1, KP1, INT, IND, IOPT, IT, IM1, JM1, IP1,               &
-     & IAPR, IBPR, ICPR, IKT, IA, IB, IC, IA1, IA2, IB1, IB2, IC1, IC2  
+     & IAPR, IBPR, ICPR, IKT, IA, IB, IC, IA1, IA2, IB1, IB2, IC1, IC2
       REAL*8 TEMPI, TINC, DENSI, DINC, DENS, DLOGD, TEMP, TLOGT,        &
      & TEMP2, DD, DELTEK, EXPE, VALUE, SUMN, TTT, TTP, AHB, EJI, WAV,   &
-     & RLINT, FINT, SUMA, SUMB, SUMC, QX, AX, EX, FRAT, DEE             
-!                                                                       
+     & RLINT, FINT, SUMA, SUMB, SUMC, QX, AX, EX, FRAT, DEE
+!
       do i = 1,ndim2
           g(i)=0
           do j = 1, 2
@@ -158,9 +158,9 @@
      OPEN(UNIT=8,file=trim(ion)//'rat.lis',STATUS='UNKNOWN')
       DO JT = 1, INT                                           !Start of Te loop
         TEMP=TEMPI+(JT-1)*TINC
-!       IF(TEMPI.LT.30.D0) THEN                                         
-!         TEMP=10.D0**TEMP                                              
-!       ENDIF                                                           
+!       IF(TEMPI.LT.30.D0) THEN
+!         TEMP=10.D0**TEMP
+!       ENDIF
         DO JJD = 1, IND                                        !Start of Ne loop
           DENS=DENSI+(JJD-1)*DINC
           IF(DENSI.LT.30.D0) THEN
@@ -186,11 +186,11 @@
           IF (NTEMP.EQ.1) THEN
             WRITE (6,*)
             WRITE (6,*)                                                 &
-     &      'Coll. strengths available for 1 Te only - assuming const'  
+     &      'Coll. strengths available for 1 Te only - assuming const'
           ELSEIF (NTEMP.EQ.2) THEN
             WRITE (6,*)
             WRITE (6,*)                                                 &
-     &      'Coll. strengths available for 2 Te only - linear interp'   
+     &      'Coll. strengths available for 2 Te only - linear interp'
           ELSE
             CALL SPLMAT(T, NTEMP, IOPT, NDIM1, NDIM1T3, HMH)
             CALL CFD(TLOGT,T,NTEMP,NDIM1,HMH,D)
@@ -210,7 +210,7 @@
                  DD = QQ(1)
               ELSEIF (NTEMP.EQ.2) THEN
                  DD = QQ(1) +                                           &
-     &            (QQ(2) - QQ(1))/(T(2) - T(1)) * (TLOGT - T(1))        
+     &            (QQ(2) - QQ(1))/(T(2) - T(1)) * (TLOGT - T(1))
               ELSE
                 CALL CFY(TLOGT, DD, T, QQ, NTEMP, NDIM1,HMH,D)
               ENDIF
@@ -321,7 +321,7 @@
           SUMC = 1./SUMC
           TDRAT(1,JJD)=DENS
           TDRAT(2,JJD)=FRAT
-!          write(6,*),jd,suma,sumb,sumc,dens,frat                       
+!          write(6,*),jd,suma,sumb,sumc,dens,frat
           WRITE(7,1017) TEMP, DENS, SUMC
           WRITE(8,1017) TEMP, DENS, FRAT
         ENDDO                                          !End of the Ne loop
@@ -371,43 +371,43 @@
      & /,9X,' Si2, Si3, Si4, Si6, Si7, Si8, Si9, Si10',                 &
      & /,9X,' SII, SIII, SIV, SVIII, SIX, SXI, SXII',                   &
      & /,9X,' Ti6, Ti14, V2, V7, V15',                                  &
-     & /1x,60('*'),/)                                                   
+     & /1x,60('*'),/)
  1001 FORMAT(1X,'Enter name of ion : ',$)
  1002 FORMAT(A20)
  1003 FORMAT(78A1)
  1004 FORMAT(/1X,'Data tabulated for the following levels ;',/,         &
-     &(2X,I2,1X,A20))                                                   
+     &(2X,I2,1X,A20))
  1005 FORMAT(1X,'Enter initial Temperature, Increment, No of incre',    &
-     & 'ments',/1X,' [linear only] : ',$)                               
+     & 'ments',/1X,' [linear only] : ',$)
  1006 FORMAT(1X,'Enter initial Density, Increment, No of incre',        &
-     & 'ments',/1X,' [ log (< 30) or linear ] : ',$)                    
+     & 'ments',/1X,' [ log (< 30) or linear ] : ',$)
  1010 FORMAT(1X,'Enter data for line ratio A/B ',/,                     &
-     & 1X,'Transitions for line A : ',$)                                
+     & 1X,'Transitions for line A : ',$)
  1011 FORMAT(1X,'Transitions for line B : ',$)
  1012 FORMAT(1X,'Transitions for which A value is required : ',$)
  1013 FORMAT(//1X,' TEMPorDENS | ',(1X,1PE9.3),                         &
-     & /1X,' ---------+-',('----------'))                               
+     & /1X,' ---------+-',('----------'))
  1014 FORMAT(1H ,1PE9.3,' | ',(1X,1PE9.3))
  1015 FORMAT(/1X,'The A value, N(ion)/N(H+) = A * I(sum)/I(Hb), is',    &
      & /1X,'for the total intensity of the following lines',            &
-     & /1X,(F9.1,' ')/)                                                 
+     & /1X,(F9.1,' ')/)
  1017 FORMAT(3(1X,1PE10.3))
  1018 FORMAT(/1X,A20,' ( ',(F9.1,','),' ) / ( ',                        &
-     & (F9.1,','),' )'/)                                                
+     & (F9.1,','),' )'/)
  3000 FORMAT (//1H ,10X,A20/                                            &
      & 10X,' T =',F9.0,', LOG T =',F7.3/                                &
      & 10X,' D =',1PD9.2,', LOG D =',0PF7.3/                            &
-     & ' POPULATIONS:')                                                 
+     & ' POPULATIONS:')
  3100 FORMAT (1H ,I4,3X,A20,1PD12.4)
  3200 FORMAT (1H ,'TRANSITION',4X,'LAMDA(A)',5X,'INTENSITY',            &
-     & 4X,' I(line)*N(H+)/ I(Hbeta)*N(ion)')                            
+     & 4X,' I(line)*N(H+)/ I(Hbeta)*N(ion)')
  3300 FORMAT (1H ,I4,I3,5X,F12.2,2(1PD13.3))
  6100 FORMAT (' PROCESSING COMPLETED'/                                  &
-     & ' GOODBYE!!'///)                                                 
+     & ' GOODBYE!!'///)
  7000 FORMAT (4(2I4,2X,1PE10.3))
-      END                                           
-!                                                                       
-!---- PROC LUSLV                                                        
+      END
+!
+!---- PROC LUSLV
                                                        !Solving linear e
       SUBROUTINE LUSLV(A,B,N,M)
       IMPLICIT NONE
@@ -416,9 +416,9 @@
       CALL LURED(A,N,M)
       CALL RESLV(A,B,N,M)
       RETURN
-      END                                           
-!                                                                       
-!---- PROC LURED                                                        
+      END
+!
+!---- PROC LURED
       SUBROUTINE LURED(A,N,NR)
       IMPLICIT NONE
       INTEGER N, NR, NM1, I, J, K, IP1
@@ -435,9 +435,9 @@
         ENDDO
       ENDDO
       RETURN
-      END                                           
-!                                                                       
-!---- PROC RESLV                                                        
+      END
+!
+!---- PROC RESLV
       SUBROUTINE RESLV(A,B,N,NR)                               !Resolve A with B
       IMPLICIT NONE
       INTEGER N, NR, NM1, I, J, K, L, IP1
@@ -462,9 +462,9 @@
       RETURN
     1 B(N)=B(N)/A(N,N)
       RETURN
-      END                                           
-!                                                                       
-!---- PROC SPLMAT                                                       
+      END
+!
+!---- PROC SPLMAT
       SUBROUTINE SPLMAT(XX,NPT,IOPT,NDIM, NDIMT3, HMH)
       IMPLICIT NONE
       INTEGER NDIM, NDIMT3, NPT, IOPT, NPM, NELEM
@@ -475,13 +475,13 @@
       CALL ELU(GH,NPM,NDIMT3)
       CALL HGEN(XX,GH,Y,NPT,IOPT,NDIM,NDIMT3,HMH)
       RETURN
-      END                                           
-!                                                                       
-!---- PROC DERIV                                                        
-!     Calculate the first derivative of the lagrangian interpolator     
-!     of a function F, tabulated at the N points XY(I), I=1 to N.       
-!     The derivative is given as the coefficients of F(I), I=1 to N,    
-!     in the array D(I), I=1 to N.                                      
+      END
+!
+!---- PROC DERIV
+!     Calculate the first derivative of the lagrangian interpolator
+!     of a function F, tabulated at the N points XY(I), I=1 to N.
+!     The derivative is given as the coefficients of F(I), I=1 to N,
+!     in the array D(I), I=1 to N.
       SUBROUTINE DERIV(XY,D,X,N,NDIM)
       IMPLICIT NONE
       INTEGER N ,NDIM, I, J, K
@@ -502,24 +502,24 @@
         D(I)=S/P1
       ENDDO
       RETURN
-      END                                           
-!                                                                       
-!---- PROC HGEN                                                         
-!     Cubic spline interpolation                                        
-!     The equation for the second derivatives at internal points        
-!     is of the form G*YPP=B, where G has been evaluated and LU         
-!     decomposed.                                                       
-!     this routine writes B=HMH*Y and then solves YPP=G**(-1)*HMH*Y,    
-!     =HMH*Y.                                                           
-!     Three options are provided for boundary conditions-               
-!     IOPT = 0  YPP=0 at end points                                     
-!     IOPT = 1  YP=0  at end points                                     
-!     IOPT = 2  YP at end points from lagarnge interpolant of a set of  
-!     internal points.                                                  
+      END
+!
+!---- PROC HGEN
+!     Cubic spline interpolation
+!     The equation for the second derivatives at internal points
+!     is of the form G*YPP=B, where G has been evaluated and LU
+!     decomposed.
+!     this routine writes B=HMH*Y and then solves YPP=G**(-1)*HMH*Y,
+!     =HMH*Y.
+!     Three options are provided for boundary conditions-
+!     IOPT = 0  YPP=0 at end points
+!     IOPT = 1  YP=0  at end points
+!     IOPT = 2  YP at end points from lagarnge interpolant of a set of
+!     internal points.
       SUBROUTINE HGEN(XX,GH,Y,NPT,IOPT,NDIM,NDIMT3,HMH)
       IMPLICIT NONE
       INTEGER NPT, IOPT, NDIM, NDIMT3, NDIM3, NIP, I, J, K, NPM,        &
-     & INDX                                                             
+     & INDX
       REAL*8 XX(NDIM), GH(NDIMT3), Y(NDIM), HMH(NDIM,NDIM),             &
      & XY(5),D(5),C(2,5), A0, AN1, H1, H2
       IF(IOPT.EQ.2) THEN           !Case of derivative boundary condition, with
@@ -550,7 +550,7 @@
           IF(J.EQ.I+1) HMH(I,J)=-H1-H2
         ENDDO
       ENDDO
-      IF(IOPT.EQ.1.OR.IOPT.EQ.2) THEN            !Correct matrix for case of 
+      IF(IOPT.EQ.1.OR.IOPT.EQ.2) THEN            !Correct matrix for case of
         HMH(1,1)=HMH(1,1)+3/A0                   !derivative boundary conditions
         HMH(1,2)=HMH(1,2)-3/A0
         HMH(NPM,NPT-1)=HMH(NPM,NPT-1)-3/AN1
@@ -605,9 +605,9 @@
       DO I=1,NPT
       ENDDO
       RETURN
-      END                                           
-!                                                                       
-!---- PROC GHGEN                                                        
+      END
+!
+!---- PROC GHGEN
       SUBROUTINE GHGEN(GH,XX,NPT,IOPT,NDIM,NDIMT3)
       IMPLICIT NONE
       INTEGER NPT, IOPT, NDIM, NDIMT3, INDX, NPTM, I, J, IP, JP, IK
@@ -634,9 +634,9 @@
         GH(INDX)=GH(INDX)-(XX(NPT)-XX(NPT-1))/2.
       ENDIF
       RETURN
-      END                                           
-!                                                                       
-!---- PROC ELU                                                          
+      END
+!
+!---- PROC ELU
       SUBROUTINE ELU(GH,N,NDIM)
       IMPLICIT NONE
       INTEGER N, NDIM, INDX, I, J, JP
@@ -659,14 +659,14 @@
         ENDDO
       ENDDO
       RETURN
-      END                                           
-!                                                                       
-!---- PROC CFY                                                          
+      END
+!
+!---- PROC CFY
       SUBROUTINE CFY(X,Y,XX,YY,NPT,NDIM, HMH, D)
       IMPLICIT NONE
       INTEGER NPT, NDIM, J
       REAL*8 XX(NDIM),YY(NDIM), HMH(NDIM,NDIM), D(NDIM),                &
-     & X, Y, TT                                                         
+     & X, Y, TT
       IF(X.LT.XX(1)) THEN
         Y=YY(1)
         WRITE(6,400) XX(1)
@@ -675,7 +675,7 @@
         Y=YY(NPT)
         WRITE(6,401) XX(NPT)
       ENDIF
-      TT=0. 
+      TT=0.
       DO J=1,NPT
         TT=TT+D(J)*YY(J)
       ENDDO
@@ -683,13 +683,13 @@
       RETURN
   400 FORMAT(2X,'TEMPERATURE CHOSEN IS BELOW THE AVAILABLE RANGE,',/,   &
      &2X,'THE FIRST TEMP-COLLISION STRENGTH IS BEING USED,',/,          &
-     &2X,'FOR T=',F8.4)                                                 
+     &2X,'FOR T=',F8.4)
   401 FORMAT(2X,'TEMPERATURE CHOSEN IS ABOVE THE AVAILABLE RANGE,',/,   &
      &2X,'THE HIGHEST TEMP-COLLISION STRENGTH IS BEING USED,',/,        &
-     &2X,'FOR T=',F8.4)                                                 
-      END                                           
-!                                                                       
-!---- PROC CFD                                                          
+     &2X,'FOR T=',F8.4)
+      END
+!
+!---- PROC CFD
       SUBROUTINE CFD(X,XX,NPT,NDIM, HMH, D)
       IMPLICIT NONE
       INTEGER NPT, NDIM, NPTM, I, J
@@ -720,8 +720,8 @@
       ENDDO
   400 FORMAT(2X,'TEMPERATURE CHOSEN IS BELOW THE AVAILABLE RANGE,',/,   &
      &2X,'THE FIRST TEMP-COLLISION STRENGTH IS BEING USED,',/,          &
-     &2X,'FOR T=',F8.4)                                                 
+     &2X,'FOR T=',F8.4)
   401 FORMAT(2X,'TEMPERATURE CHOSEN IS ABOVE THE AVAILABLE RANGE,',/,   &
      &2X,'THE HIGHEST TEMP-COLLISION STRENGTH IS BEING USED,',/,        &
-     &2X,'FOR T=',F8.4)                                                 
-      END                                           
+     &2X,'FOR T=',F8.4)
+      END
