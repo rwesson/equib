@@ -56,14 +56,10 @@
      & TEMP2, DD, DELTEK, EXPE, VALUE, SUMN, TTT, TTP, AHB, EJI, WAV,   &
      & RLINT, FINT, SUMA, SUMB, SUMC, QX, AX, EX, FRAT, DEE
 !
-      do i = 1,ndim2
-          g(i)=0
-          do j = 1, 2
-             itrana(j,i)=0
-             itranb(j,i)=0
-             itranc(j,i)=0
-          enddo
-      enddo
+      g=0
+      itrana=0
+      itranb=0
+      itranc=0
 
       WRITE(6,1000)                                    !Write out ions available
       ION = '                    '
