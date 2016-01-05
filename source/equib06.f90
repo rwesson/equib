@@ -404,8 +404,7 @@
       END
 !
 !---- PROC LUSLV
-                                                       !Solving linear e
-      SUBROUTINE LUSLV(A,B,N,M)
+      SUBROUTINE LUSLV(A,B,N,M)                        !Solving linear equations
       IMPLICIT NONE
       INTEGER M, N
       REAL*8 A(M,M),B(M)
