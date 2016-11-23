@@ -37,7 +37,7 @@
       PARAMETER (NDIM1T3 = 105)              !NDIM1T3 should be at least 3*NDIM1
       PARAMETER (MAXND=100)                        !Maximum no. of Ne increments
       INTEGER GX, G(NDIM2), ID(2), JD(2), &
-     &  ITRANA(2,NDIM2),ITRANB(2,NDIM2),ITRANC(2,NDIM2
+     &  ITRANA(2,NDIM2),ITRANB(2,NDIM2),ITRANC(2,NDIM2)
       REAL*8 N2(NDIM2),N(NDIM2)
       REAL*8 TDRAT(2,MAXND), TNIJ(NDIM2,NDIM2), FINTIJ(NDIM2,NDIM2),    &
      & WAVA(NDIM2), WAVB(NDIM2), WAVC(NDIM2), CS(NDIM2,NDIM2),          &
