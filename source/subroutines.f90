@@ -4,9 +4,10 @@ contains
 !---- PROC LUSLV
       SUBROUTINE LUSLV(A,B,N)                        !Solving linear equations
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: N
-      REAL,DIMENSION(:,:) :: A
-      REAL,DIMENSION(:) :: B
+      REAL(KIND=DP),DIMENSION(:,:) :: A
+      REAL(KIND=DP),DIMENSION(:) :: B
       CALL LURED(A,N)
       CALL RESLV(A,B,N)
       RETURN
@@ -15,9 +16,10 @@ contains
 !---- PROC LURED
       SUBROUTINE LURED(A,N)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: N, NM1, I, J, K, IP1
-      REAL :: FACT
-      REAL,DIMENSION(:,:) :: A
+      REAL(KIND=DP) :: FACT
+      REAL(KIND=DP),DIMENSION(:,:) :: A
       IF(N.EQ.1) RETURN
       NM1=N-1
       DO I=1,NM1
@@ -35,9 +37,10 @@ contains
 !---- PROC RESLV
       SUBROUTINE RESLV(A,B,N)                               !Resolve A with B
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER N, NM1, I, J, K, L, IP1
-      REAL,DIMENSION(:) :: B
-      REAL,DIMENSION(:,:) :: A
+      REAL(KIND=DP),DIMENSION(:) :: B
+      REAL(KIND=DP),DIMENSION(:,:) :: A
       IF(N.EQ.1) GOTO 1
       NM1=N-1
       DO I=1,NM1
@@ -63,9 +66,10 @@ contains
 !---- PROC SPLMAT
       SUBROUTINE SPLMAT(XX,NPT,IOPT,HMH,GH,Y)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: NPT, IOPT, NPM, NELEM
-      REAL,DIMENSION(:) :: XX,GH,Y
-      REAL,DIMENSION(:,:) :: HMH
+      REAL(KIND=DP),DIMENSION(:) :: XX,GH,Y
+      REAL(KIND=DP),DIMENSION(:,:) :: HMH
       NPM=NPT-2
       CALL GHGEN(GH,XX,NPT,IOPT)
       NELEM=3*NPM-2
@@ -81,9 +85,10 @@ contains
 !     in the array D(I), I=1 to N.
       SUBROUTINE DERIV(XY,D,X,N)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: N, I, J, K
-      REAL :: X, P1, P2, S
-      REAL,DIMENSION(:) :: XY,D
+      REAL(KIND=DP) :: X, P1, P2, S
+      REAL(KIND=DP),DIMENSION(:) :: XY,D
       DO I=1,N
         P1=1.
         S=0.
@@ -116,12 +121,13 @@ contains
 !     internal points.
       SUBROUTINE HGEN(XX,GH,Y,NPT,IOPT,HMH)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: NPT, IOPT, NDIM3, NIP, I, J, K, NPM, INDX
-      REAL,DIMENSION(:,:) :: HMH
-      REAL,DIMENSION(:) :: XX,GH,Y
-      REAL,DIMENSION(5) :: XY,D
-      REAL,DIMENSION(2,5) :: C
-      REAL :: A0, AN1, H1, H2
+      REAL(KIND=DP),DIMENSION(:,:) :: HMH
+      REAL(KIND=DP),DIMENSION(:) :: XX,GH,Y
+      REAL(KIND=DP),DIMENSION(5) :: XY,D
+      REAL(KIND=DP),DIMENSION(2,5) :: C
+      REAL(KIND=DP) :: A0, AN1, H1, H2
 
       IF(IOPT.EQ.2) THEN           !Case of derivative boundary condition, with
         NDIM3=5                    !derivatives from NIP-point Lagrange at
@@ -211,8 +217,9 @@ contains
 !---- PROC GHGEN
       SUBROUTINE GHGEN(GH,XX,NPT,IOPT)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: NPT, IOPT, INDX, NPTM, I, J, IP, JP, IK
-      REAL,DIMENSION(:) :: XX,GH
+      REAL(KIND=DP),DIMENSION(:) :: XX,GH
       INDX=0
       NPTM=NPT-1
       DO I=2,NPTM
@@ -240,8 +247,9 @@ contains
 !---- PROC ELU
       SUBROUTINE ELU(GH,N)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: N, INDX, I, J, JP
-      REAL,DIMENSION(:) :: GH
+      REAL(KIND=DP),DIMENSION(:) :: GH
       INDX=0
       DO I=1,N
         DO J=1,3
@@ -265,9 +273,10 @@ contains
 !---- PROC CFY
       SUBROUTINE CFY(X,Y,XX,YY,NPT,D)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: NPT, J
-      REAL :: X, Y, TT
-      REAL,DIMENSION(:) :: XX,YY,D
+      REAL(KIND=DP) :: X, Y, TT
+      REAL(KIND=DP),DIMENSION(:) :: XX,YY,D
 
       IF(X.LT.XX(1)) THEN
         Y=YY(1)
@@ -294,10 +303,11 @@ contains
 !---- PROC CFD
       SUBROUTINE CFD(X,XX,NPT, HMH, D)
       IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
       INTEGER :: NPT, NPTM, I, J
-      REAL :: X, X1, X2, A1, A2, HI
-      REAL,DIMENSION(:) :: XX, D
-      REAL,DIMENSION(:,:) :: HMH
+      REAL(KIND=DP) :: X, X1, X2, A1, A2, HI
+      REAL(KIND=DP),DIMENSION(:) :: XX, D
+      REAL(KIND=DP),DIMENSION(:,:) :: HMH
       IF(X.LT.XX(1)) THEN
         WRITE(6,400) XX(1)
         RETURN
