@@ -247,7 +247,7 @@ OPEN(UNIT=1,STATUS='OLD',file='/usr/share/equib06/'//trim(ion)//'.dat')
               DELTEK = (E(I-1)-E(J))*1.43884630           !Negative!
               EXPE = EXP(DELTEK/TEMP)
               DO IT = 1, NTEMP
-                IF (IRATS.EQ.0.D+00) THEN
+                IF (IRATS.EQ.0) THEN
                   QQ(IT) = QOM(IT,I-1,J)
                 ELSE
                   QQ(IT) = QOM(IT,I-1,J) / EXPE       !Take out the exp. depend.
@@ -261,12 +261,12 @@ OPEN(UNIT=1,STATUS='OLD',file='/usr/share/equib06/'//trim(ion)//'.dat')
               ELSE
                 CALL CFY(TLOGT, DD, T, QQ, NTEMP, D)
               ENDIF
-              IF (IRATS.EQ.0.D+00) THEN
+              IF (IRATS.EQ.0) THEN
                 CS(I-1,J) = DD
               ELSE
                 CS(I-1,J) = DD * EXPE
               ENDIF
-              IF (IRATS .EQ. 0.D+00) THEN
+              IF (IRATS .EQ. 0) THEN
                 QEFF(I-1,J) = 8.63E-06*CS(I-1,J) * EXPE / (G(I-1)*TEMP2)
                 QEFF(J,I-1) = 8.63E-06 * CS(I-1,J) / (G(J)*TEMP2)
               ELSE
