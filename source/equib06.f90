@@ -314,7 +314,7 @@
             ENDIf
           ENDDO
           FRAT=SUMA/SUMB
-          SUMC = 1./SUMC
+          if (sumc.ne.0.d0) SUMC = 1./SUMC
           TDRAT(1,JJD)=DENS
           TDRAT(2,JJD)=FRAT
 !          write(6,*),jd,suma,sumb,sumc,dens,frat
