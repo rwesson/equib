@@ -70,10 +70,8 @@ contains
       INTEGER :: NPT, IOPT, NPM, NELEM
       REAL(KIND=DP),DIMENSION(:) :: XX,GH,Y
       REAL(KIND=DP),DIMENSION(:,:) :: HMH
-      NPM=NPT-2
       CALL GHGEN(GH,XX,NPT,IOPT)
-      NELEM=3*NPM-2
-      CALL ELU(GH,NPM)
+      CALL ELU(GH,NPT-2)
       CALL HGEN(XX,GH,Y,NPT,IOPT,HMH)
       RETURN
       END
@@ -277,7 +275,6 @@ contains
       INTEGER :: NPT, J
       REAL(KIND=DP) :: X, Y, TT
       REAL(KIND=DP),DIMENSION(:) :: XX,YY,D
-
       IF(X.LT.XX(1)) THEN
         Y=YY(1)
         WRITE(6,400) XX(1)
