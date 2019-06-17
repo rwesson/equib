@@ -14,6 +14,9 @@ endif
 equib06: source/equib06.o
 	$(LD) $(FFLAGS) -o $@ $^
 
+diagnosticequib: source/diagnostic_equib.o
+	$(LD) $(FFLAGS) -o $@ $^
+
 %.o: %.f90
 	$(FC) $(FFLAGS) $< -c -o $@
 
