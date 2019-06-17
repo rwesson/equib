@@ -168,8 +168,6 @@ contains
           HMH(NPM,K)=HMH(NPM,K)-3*C(2,J)
         ENDDO
       ENDIF
-      DO I=1,NPM
-      ENDDO
       DO I=1,NPT                 !Solve matrix equation with results in the form
         Y(1)=HMH(1,I)            !YPP=HMH*Y. matrix g has been LU decomposed
         INDX=0
@@ -207,8 +205,6 @@ contains
           HMH(NPT,K)=HMH(NPT,K)+3*C(2,J)/AN1
         ENDDO
       ENDIF
-      DO I=1,NPT
-      ENDDO
       RETURN
       END
 !
