@@ -221,15 +221,14 @@ OPEN(UNIT=1,STATUS='OLD',file='/usr/share/equib06/'//trim(ion)//'.dat')
           DLOGD = LOG10 (DENS)
           TLOGT = LOG10 (TEMP)
           TEMP2= SQRT (TEMP)
-          DO I = 1, NLEV                                         !Form matrices
-            DO J = 1, NLEV
-              X(I,J) = 0.0
-              CS(I,J)=0.0
-              QEFF(I,J)=0.0
-              TNIJ(I,J)=0.0
-            ENDDO
-            Y(I) = 0.0
-          ENDDO
+
+! intialisations
+          X=0
+          CS=0
+          QEFF=0
+          TNIJ=0
+          Y=0
+
           IOPT=0
           IF (NTEMP.EQ.1) THEN
             WRITE (6,*)
