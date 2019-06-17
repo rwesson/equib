@@ -126,7 +126,6 @@ contains
       REAL(KIND=DP),DIMENSION(5) :: XY,D
       REAL(KIND=DP),DIMENSION(2,5) :: C
       REAL(KIND=DP) :: A0, AN1, H1, H2
-
       IF(IOPT.EQ.2) THEN           !Case of derivative boundary condition, with
         NDIM3=5                    !derivatives from NIP-point Lagrange at
         NIP=3                      !internal points
@@ -212,14 +211,13 @@ contains
       SUBROUTINE GHGEN(GH,XX,NPT,IOPT)
       IMPLICIT NONE
       INTEGER, PARAMETER :: DP = KIND(1.D0)
-      INTEGER :: NPT, IOPT, INDX, NPTM, I, J, IP, JP, IK
+      INTEGER :: NPT, IOPT, INDX, NPTM, I, J, JP, IK
       REAL(KIND=DP),DIMENSION(:) :: XX,GH
       INDX=0
       NPTM=NPT-1
       DO I=2,NPTM
-        IP=I-1
         DO J=1,3
-          JP=IP+J-2
+          JP=I-1+J-2
           IF(JP.GE.1.AND.JP.LE.NPTM-1) THEN
             INDX=INDX+1
             IF(J.EQ.2) THEN
