@@ -1,6 +1,6 @@
 FC=gfortran
 LD=gfortran
-FFLAGS=-ffree-line-length-0 -O3 -fno-backtrace
+FFLAGS=-ffree-line-length-0 -O3 -fno-backtrace -Jsource/
 
 .PHONY: new clean install uninstall
 
@@ -12,10 +12,11 @@ else
 endif
 
 ifeq ($(CO),debug)
-  FFLAGS += -g -pg -fbounds-check -Wall -Wuninitialized -Werror -pedantic -ffpe-trap=zero,overflow,invalid,underflow,denormal
+  FFLAGS += -fbounds-check -Wall -Wuninitialized -ffpe-trap=zero,overflow,invalid,underflow,denormal #-pedantic
+#  FFLAGS += -g -pg -fbounds-check -Wall -Wuninitialized -Werror -pedantic -ffpe-trap=zero,overflow,invalid,underflow,denormal
 endif
 
-equib06: source/equib06.o
+equib06: source/subroutines.o source/equib06.o
 	$(LD) $(FFLAGS) -o $@ $^
 
 diagnosticequib: source/diagnostic_equib.o
