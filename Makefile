@@ -2,13 +2,17 @@ FC=gfortran
 LD=gfortran
 FFLAGS=-ffree-line-length-0 -O3 -fno-backtrace
 
-.PHONY: clean install uninstall
+.PHONY: new clean install uninstall
 
 OS := $(shell uname)
 ifeq ($(OS),Darwin)
   PREFIX=/usr/local
 else
   PREFIX=/usr
+endif
+
+ifeq ($(CO),debug)
+  FFLAGS += -g -pg -fbounds-check -Wall -Wuninitialized -Werror -pedantic -ffpe-trap=zero,overflow,invalid,underflow,denormal
 endif
 
 equib06: source/equib06.o
@@ -19,6 +23,8 @@ diagnosticequib: source/diagnostic_equib.o
 
 %.o: %.f90
 	$(FC) $(FFLAGS) $< -c -o $@
+
+new: clean equib06
 
 clean:
 	rm -f equib06 source/*.o source/*.mod
