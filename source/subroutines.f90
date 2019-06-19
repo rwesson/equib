@@ -182,7 +182,7 @@ contains
           Y(K)=(Y(K)-GH(INDX+1)*Y(K+1))/GH(INDX)
         ENDDO
         DO J=1,NPM
-        HMH(J+1,I)=Y(J)
+          HMH(J+1,I)=Y(J)
         ENDDO
         HMH(1,I)=0.                 !Insert values for second derivatives at end
         HMH(NPT,I)=0.               !points: first and last rows of the matrix
