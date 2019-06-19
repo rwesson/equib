@@ -121,6 +121,7 @@ OPEN(UNIT=1,STATUS='OLD',file='/usr/share/equib06/'//trim(ion)//'.dat')
       ICPR=0
       JJD=1
       K=0
+      DD=0
 
       DO I = 1, NLEV                      !no. of Te (max=NDIM1) NTEMP and the
          READ (1,1002) LABEL(I)           !input format (cf Readme)
@@ -256,8 +257,7 @@ OPEN(UNIT=1,STATUS='OLD',file='/usr/share/equib06/'//trim(ion)//'.dat')
               IF (NTEMP.EQ.1) THEN
                  DD = QQ(1)
               ELSEIF (NTEMP.EQ.2) THEN
-                 DD = QQ(1) +                                           &
-     &            (QQ(2) - QQ(1))/(T(2) - T(1)) * (TLOGT - T(1))
+                 DD = QQ(1) + (QQ(2) - QQ(1))/(T(2) - T(1)) * (TLOGT - T(1))
               ELSE
                 CALL CFY(TLOGT, DD, T, QQ, NTEMP, D)
               ENDIF
