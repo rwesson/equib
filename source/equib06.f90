@@ -48,7 +48,7 @@
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITRANA,ITRANB,ITRANC
 
       REAL(KIND=DP) :: TEMPI, TINC, DENSI, DINC, DENS, DLOGD, TEMP, TLOGT,       &
-     & TEMP2, DD, DELTEK, EXPE, VALUE, SUMN, TTT, TTP, AHB, EJI, WAV,   &
+     & TEMP2, DD, DELTEK, EXPE, VALUE, SUMN, AHB, EJI, WAV,   &
      & RLINT, FINT, SUMA, SUMB, SUMC, QX, AX, EX, FRAT, DEE
       REAL(KIND=DP),DIMENSION(:),ALLOCATABLE :: N,N2,WAVA,WAVB,WAVC,QQ,E,T,ROOTT,Y,Y2,YKEEP,D,GH
       REAL(KIND=DP),DIMENSION(:,:),ALLOCATABLE :: TDRAT,TNIJ,FINTIJ,CS,QEFF,A,X,X2,XKEEP,HMH
@@ -319,9 +319,7 @@ OPEN(UNIT=1,STATUS='OLD',file='/usr/share/equib06/'//trim(ion)//'.dat')
             WRITE (3,3100) I, LABEL(I), N(I)
           ENDDO
           WRITE (3,3200)
-          TTT=TEMP*1.0E-4
-          TTP=TTT**(-0.870)
-          AHB=3.036E-14*TTP            !Eff. recombination coef. of Hb
+          CALL GET_AEFF_HB(TLOGT,DLOGD,AHB)
           DO I = 1, NLEV1
             IP1 = I + 1
             DO J = IP1, NLEV

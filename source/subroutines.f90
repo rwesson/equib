@@ -330,4 +330,54 @@ contains
      &2X,'THE HIGHEST TEMP-COLLISION STRENGTH IS BEING USED,',/,        &
      &2X,'FOR T=',F8.4)
       END
-end module mod_subroutines
+
+! get effective recombination coefficient of Hbeta
+      SUBROUTINE GET_AEFF_HB(TE,NE,AEFF_HB)
+      IMPLICIT NONE
+      INTEGER, PARAMETER :: DP = KIND(1.D0)
+      REAL(KIND=DP) :: TE, NE, AE2, AE3, AE4, AE5, AE6, AE7, AE8, AEFF_HB, EM_HB, LOGEM
+
+      AE2 = -9.06524E+00 -2.69954E+00 * TE + 8.80123E-01 * &
+      &TE ** 2 -1.57946E-01 * TE ** 3 + &
+      &9.25920E-03 * TE ** 4
+      AE3 = -8.13757E+00 -3.57392E+00 * TE + 1.19331E+00 * &
+      &TE ** 2 -2.08362E-01 * TE ** 3 + &
+      &1.23303E-02 * TE ** 4
+      AE4 = -6.87230E+00 -4.72312E+00 * TE + 1.58890E+00 * &
+      &TE ** 2 -2.69447E-01 * TE ** 3 + &
+      &1.58955E-02 * TE ** 4
+      AE5 = -5.15059E+00 -6.24549E+00 * TE + 2.09801E+00 * &
+      &TE ** 2 -3.45649E-01 * TE ** 3 + &
+      &2.01962E-02 * TE ** 4
+      AE6 = -2.35923E+00 -8.75565E+00 * TE + 2.95600E+00 * &
+      &TE ** 2 -4.77584E-01 * TE ** 3 + &
+      &2.78852E-02 * TE ** 4
+      AE7 =  1.55373E+00 -1.21894E+01 * TE + 4.10096E+00 * &
+      &TE ** 2 -6.49318E-01 * TE ** 3 + &
+      &3.76487E-02 * TE ** 4
+      AE8 =  6.59883E+00 -1.64030E+01 * TE + 5.43844E+00 * &
+      &TE ** 2 -8.40253E-01 * TE ** 3 + &
+      &4.79786E-02 * TE ** 4
+
+      IF (NE .LT. 2) THEN
+            AEFF_HB = AE2
+      ELSEIF (NE .GE. 2 .AND. NE .LT. 3) THEN
+            AEFF_HB = AE2 + (AE3 - AE2) * (NE - 2)
+      ELSEIF (NE .GE. 3 .AND. NE .LT. 4) THEN
+            AEFF_HB = AE3 + (AE4 - AE3) * (NE - 3)
+      ELSEIF (NE .GE. 4 .AND. NE .LT. 5) THEN
+            AEFF_HB = AE4 + (AE5 - AE4) * (NE - 4)
+      ELSEIF (NE .GE. 5 .AND. NE .LT. 6) THEN
+            AEFF_HB = AE5 + (AE6 - AE5) * (NE - 5)
+      ELSEIF (NE .GE. 6 .AND. NE .LT. 7) THEN
+            AEFF_HB = AE6 + (AE7 - AE6) * (NE - 6)
+      ELSEIF (NE .GE. 7 .AND. NE .LT. 8) THEN
+            AEFF_HB = AE7 + (AE8 - AE7) * (NE - 7)
+      ELSE
+            AEFF_HB = AE8
+      ENDIF
+
+      AEFF_HB = 10**AEFF_HB
+
+      END SUBROUTINE GET_AEFF_HB
+END MODULE MOD_SUBROUTINES
