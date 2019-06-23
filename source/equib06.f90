@@ -303,16 +303,9 @@ OPEN(UNIT=1,STATUS='OLD',file='/usr/share/equib06/'//trim(ion)//'.dat')
             ENDDO
           ENDDO
           CALL LUSLV(X,Y,NLEV1)         !Solve matrices for populations
-          DO I = NLEV, 2, -1
-            N(I) = Y(I-1)
-          ENDDO
-          SUMN = 1.0
-          DO I = 2, NLEV
-            SUMN = SUMN + N(I)
-          ENDDO
-          DO I = 2, NLEV
-            N(I) = N(I) / SUMN
-          ENDDO
+          N(2:) = Y(1:NLEV1)
+          SUMN = 1.0+SUM(N(2:))
+          N(2:) = N(2:)/SUMN
           N(1) = 1.0 / SUMN
           WRITE (3,3000) ION,TEMP,TLOGT,DENS,DLOGD                !Output data
           DO I = 1, NLEV
