@@ -41,7 +41,10 @@ contains
       INTEGER N, NM1, I, J, K, L, IP1
       REAL(KIND=DP),DIMENSION(:) :: B
       REAL(KIND=DP),DIMENSION(:,:) :: A
-      IF(N.EQ.1) GOTO 1
+      IF(N.EQ.1) THEN
+        B(N)=B(N)/A(N,N)
+        RETURN
+      ENDIF
       NM1=N-1
       DO I=1,NM1
         IP1=I+1
@@ -58,8 +61,6 @@ contains
         ENDDO
         B(K)=B(K)/A(K,K)
       ENDDO
-      RETURN
-    1 B(N)=B(N)/A(N,N)
       RETURN
       END
 !
